@@ -62,6 +62,18 @@ async function request<T>(path: string, init: RequestInit = {}): Promise<T> {
     );
   }
 
+  // A static host (e.g. a Netlify deploy without the FastAPI backend) answers unknown
+  // /api paths with the SPA's index.html. Treat that as "server unreachable" instead of
+  // handing HTML to callers that expect JSON, which would crash the whole app.
+  const contentType = response.headers.get("Content-Type") ?? "";
+  if (contentType.includes("text/html")) {
+    throw new ApiError(
+      response.ok ? 503 : response.status,
+      "The RationSaathi API server is not available on this site. Nothing was submitted.",
+      null,
+    );
+  }
+
   const text = await response.text();
   let body: unknown = null;
   if (text) {
