@@ -1,0 +1,57 @@
+{
+  "scope": "portability",
+  "version": "synthetic-2026.1",
+  "effective_from": "2026-01-01T00:00:00Z",
+  "source_label": "SYNTHETIC DEMO RULES — illustrative only, not a statement of law",
+  "is_synthetic": true,
+  "stock_freshness_hours": 24,
+  "identity_evidence_options": ["Synthetic household reference", "Synthetic photo-ID reference", "Facilitator-verified reference"],
+  "pairs": [
+    {
+      "home": "SYN-MH",
+      "destination": "SYN-GJ",
+      "home_state": "Synthetic Maharashtra",
+      "destination_state": "Synthetic Gujarat",
+      "portability_supported": true,
+      "commodities": ["RICE", "WHEAT", "SUGAR"],
+      "required_evidence": ["household_reference", "member_identity_reference", "destination_address_declaration"],
+      "requires_home_state_confirmation": true,
+      "alternate_shop_allowed": true,
+      "notes": [
+        "Synthetic demo rule: an authorised destination shop may serve a migrant household after verification.",
+        "No real portability guarantee is implied by this demo rule."
+      ]
+    },
+    {
+      "home": "SYN-BR",
+      "destination": "SYN-GJ",
+      "home_state": "Synthetic Bihar",
+      "destination_state": "Synthetic Gujarat",
+      "portability_supported": true,
+      "commodities": ["RICE", "WHEAT"],
+      "required_evidence": ["household_reference", "member_identity_reference"],
+      "requires_home_state_confirmation": true,
+      "alternate_shop_allowed": false,
+      "notes": [
+        "Synthetic demo rule: no alternative-shop pathway is configured for this pair."
+      ]
+    }
+  ],
+  "collection_windows": {
+    "SYN-GJ": {
+      "label": "Illustrative window: first week of the month",
+      "verified": false,
+      "source_label": "Synthetic demo schedule — verify locally"
+    }
+  },
+  "commodities": {
+    "RICE": {"name": "Rice", "unit": "kg", "synthetic_entitlement_per_member": 5},
+    "WHEAT": {"name": "Wheat flour", "unit": "kg", "synthetic_entitlement_per_member": 3},
+    "SUGAR": {"name": "Sugar", "unit": "kg", "synthetic_entitlement_per_member": 1}
+  },
+  "disclaimers": [
+    "Entitlement quantities are synthetic test fixtures, not official rates.",
+    "Stock states are synthetic observations and may be stale or incomplete.",
+    "Collection windows are illustrative and unverified."
+  ]
+}

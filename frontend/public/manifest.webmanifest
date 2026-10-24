@@ -1,0 +1,17 @@
+{
+  "name": "RationSaathi (synthetic demo)",
+  "short_name": "RationSaathi",
+  "description": "Public distribution navigation prototype. Synthetic demo data only; not a government service.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#fbf8f1",
+  "theme_color": "#14532d",
+  "icons": [
+    {
+      "src": "/logo.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "version": "synthetic-authz-2026.1",
+  "is_synthetic": true,
+  "source_label": "SYNTHETIC DEMO AUTHORISATION POLICY — not a legal determination",
+  "actions": {
+    "view_public_guidance": {"requires": []},
+    "view_own_profile": {"requires": ["session_member_scope"]},
+    "view_other_member": {"requires": ["facilitator_scope", "recorded_member_consent"]},
+    "request_own_service": {"requires": ["session_member_scope"]},
+    "act_for_dependent": {"requires": ["authorised_representative", "recorded_member_consent", "dependency_verified"]},
+    "household_wide_change": {"requires": ["household_authority", "human_review"], "resolved": false},
+    "change_membership": {"requires": ["household_authority", "human_review"], "resolved": false},
+    "change_identity_fields": {"requires": ["self_or_authorised_representative", "evidence", "human_review_if_uncertain"]},
+    "submit_official_application": {"requires": ["active_session", "permitted_risk_state", "configured_submission_adapter"]},
+    "give_consent_for_other": {"allowed": false, "reason": "One adult cannot consent on behalf of another adult in this demo policy."},
+    "view_grievance": {"requires": ["session_member_or_facilitator_scope"]},
+    "create_escalation": {"requires": ["view_grievance"]}
+  },
+  "notes": [
+    "The absent household head does not automatically block a member's own service request, and does not automatically authorise household-wide changes.",
+    "Where authority cannot be established the application pauses and refers the household to an authorised office.",
+    "No legal consent rule is asserted; jurisdiction-specific policy is configurable and marked unverified."
+  ]
+}

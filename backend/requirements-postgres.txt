@@ -1,0 +1,3 @@
+# PostgreSQL driver (install when DATABASE_URL uses postgresql+psycopg://).
+# The local demo defaults to SQLite; the schema and Alembic migration target PostgreSQL.
+psycopg[binary]>=3.2

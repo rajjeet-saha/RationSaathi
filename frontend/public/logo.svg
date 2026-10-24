@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48" role="img" aria-label="RationSaathi logo">
+  <rect width="48" height="48" rx="12" fill="#14532d"/>
+  <path d="M13 29c0-7 5-12 11-12s11 5 11 12" stroke="#dcefdf" stroke-width="3" stroke-linecap="round" fill="none"/>
+  <path d="M24 17v15M17 32h14" stroke="#8cc99a" stroke-width="3" stroke-linecap="round"/>
+  <circle cx="24" cy="13" r="2.6" fill="#fef3c7"/>
+</svg>
