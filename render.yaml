@@ -1,0 +1,27 @@
+﻿services:
+  - type: web
+    name: rationsaathi-backend
+    runtime: python
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    plan: free
+    envVars:
+      - key: DEMO_MODE
+        value: "true"
+      - key: ALLOW_SIMULATED_SUBMISSION
+        value: "true"
+      - key: FRONTEND_ORIGIN
+        value: "*"
+
+  - type: web
+    name: rationsaathi-frontend
+    runtime: static
+    rootDir: frontend
+    buildCommand: npm install && npm run build
+    staticPublishPath: dist
+    plan: free
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html

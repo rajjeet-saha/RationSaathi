@@ -54,9 +54,18 @@ app = FastAPI(
 )
 
 settings = get_settings()
+allowed_origins = [o.strip() for o in settings.frontend_origin.split(",") if o.strip()]
+if "*" in allowed_origins:
+    allowed_origins = ["*"]
+else:
+    if "http://localhost:5173" not in allowed_origins:
+        allowed_origins.append("http://localhost:5173")
+    if "http://127.0.0.1:5173" not in allowed_origins:
+        allowed_origins.append("http://127.0.0.1:5173")
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[settings.frontend_origin, "http://127.0.0.1:5173"],
+    allow_origins=allowed_origins,
     allow_credentials=False,
     allow_methods=["GET", "POST", "PATCH", "DELETE", "OPTIONS"],
     allow_headers=["Content-Type", "X-Ration-Session", "Authorization"],
