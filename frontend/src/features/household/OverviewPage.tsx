@@ -54,7 +54,7 @@ export function OverviewPage() {
         setWheat(wheatDecision);
       })
       .catch((err) => {
-        if (!cancelled) setError(err instanceof ApiError ? err.message : "Could not load the household overview.");
+        if (!cancelled) setError(err instanceof ApiError ? err.message : t("overview.loadError"));
       })
       .finally(() => {
         if (!cancelled) setLoading(false);
@@ -66,15 +66,15 @@ export function OverviewPage() {
 
   if (!session?.member) {
     return (
-      <Notice tone="warning" title="Facilitator consent required">
-        Open a member profile with recorded consent before using the household overview.
+      <Notice tone="warning" title={t("overview.facilitatorConsentTitle")}>
+        {t("overview.facilitatorConsentBody")}
       </Notice>
     );
   }
 
   if (loading) return <LoadingState />;
   if (error) return <ErrorState message={error} onRetry={() => window.location.reload()} />;
-  if (!household) return <ErrorState message="Household not available." />;
+  if (!household) return <ErrorState message={t("overview.householdUnavailable")} />;
 
   const member = household.current_member;
   const mismatch = member.verification_state === "MISMATCH_FLAGGED";
@@ -100,10 +100,10 @@ export function OverviewPage() {
     <div>
       <PageHeader
         eyebrow={`${household.reference} · ${household.home_state} → ${household.destination_state}`}
-        title={`${member.alias} — today`}
+        title={t("overview.todayTitle", { alias: member.alias })}
         description={
           <span>
-            {t("sessionPrivacy")} {household.member_count} household member records exist; only yours is loaded here.
+            {t("sessionPrivacy")} {t("overview.membersExist", { count: household.member_count })}
           </span>
         }
         icon={<UsersRound aria-hidden="true" className="size-5" />}
@@ -121,7 +121,7 @@ export function OverviewPage() {
         }
       />
 
-      <ReadAloud text={readback} label="Read this page's safe next steps" />
+      <ReadAloud text={readback} label={t("overview.readAloud")} />
 
       <div className="mt-4 grid gap-4 lg:grid-cols-2">
         <Card>
@@ -129,14 +129,12 @@ export function OverviewPage() {
             <h2 className="section-title">{t("portability.whatCanIDo")}</h2>
             <ProvenanceBadge provenance={household.provenance as Household["provenance"] as never} label={household.provenance_label} />
           </div>
-          <p className="mt-1 text-sm text-muted">
-            The answer depends on verified stock and entitlement data. Uncertainty is shown explicitly.
-          </p>
+          <p className="mt-1 text-sm text-muted">{t("overview.answerDepends")}</p>
 
           <div className="mt-4 space-y-3">
             {[
-              { decision: rice, commodity: "Rice" },
-              { decision: wheat, commodity: "Wheat flour" },
+              { decision: rice, commodity: t("overview.rice") },
+              { decision: wheat, commodity: t("overview.wheat") },
             ].map(({ decision, commodity }) =>
               decision ? (
                 <div key={commodity} className="rounded-xl border border-line p-3">
@@ -149,13 +147,15 @@ export function OverviewPage() {
                     <div className="mt-2 flex flex-wrap items-center gap-2 text-xs text-muted">
                       <StockBadge state={decision.stock.state} label={decision.stock.label} />
                       <span>
-                        Updated {decision.stock.age_hours != null ? `${decision.stock.age_hours}h ago` : "unknown"} ·{" "}
-                        {decision.stock.source}
+                        {decision.stock.age_hours != null
+                          ? t("overview.updatedAgo", { hours: decision.stock.age_hours })
+                          : t("overview.unknown")}{" "}
+                        · {decision.stock.source}
                       </span>
                     </div>
                   ) : null}
                   <Button variant="ghost" className="mt-2 min-h-9 px-2 py-1 text-xs" onClick={() => navigate("/migration")}>
-                    See options and uncertainty
+                    {t("overview.seeOptions")}
                     <ChevronRight aria-hidden="true" className="size-4" />
                   </Button>
                 </div>
@@ -174,17 +174,15 @@ export function OverviewPage() {
                 <TriangleAlert aria-hidden="true" className="size-5" />
               </span>
               <div>
-                <h2 className="section-title">Record mismatch found</h2>
+                <h2 className="section-title">{t("overview.mismatchTitle")}</h2>
                 <p className="mt-1 text-sm leading-relaxed text-muted">
-                  Household record: <strong>{member.full_name}</strong>, age {member.age ?? "unknown"}.
+                  Household record: <strong>{member.full_name}</strong>, age {member.age ?? t("overview.unknown")}.
                   Identity-document reference: <strong>{member.document.name ?? "not recorded"}</strong>, age{" "}
-                  {member.document.age ?? "unknown"}.
+                  {member.document.age ?? t("overview.unknown")}.
                 </p>
-                <p className="mt-1 text-xs text-muted">
-                  Evidence is not automatically assumed correct. A destructive correction is blocked before submission.
-                </p>
+                <p className="mt-1 text-xs text-muted">{t("overview.mismatchEvidence")}</p>
                 <Button variant="secondary" className="mt-3" onClick={() => navigate("/corrections")}>
-                  Review safely
+                  {t("overview.reviewSafely")}
                   <ArrowRight aria-hidden="true" className="size-4" />
                 </Button>
               </div>
@@ -194,31 +192,31 @@ export function OverviewPage() {
           <Card>
             <div className="flex items-center gap-2">
               <CalendarClock aria-hidden="true" className="size-5 text-brand-800" />
-              <h2 className="section-title">Grievance status</h2>
+              <h2 className="section-title">{t("overview.grievanceStatus")}</h2>
             </div>
             {oldGrievance ? (
               <div className="mt-3 rounded-xl border border-line p-3">
                 <p className="text-sm font-semibold">{oldGrievance.subject}</p>
                 <p className="mt-1 text-xs text-muted">
-                  Filed {oldGrievance.deadline.filed_days_ago} days ago · {oldGrievance.status} · receipt{" "}
-                  {oldGrievance.official_receipt_number ?? "not verified"}
+                  {t("overview.filedDaysAgo", { days: oldGrievance.deadline.filed_days_ago ?? 0 })} · {oldGrievance.status} ·{" "}
+                  receipt {oldGrievance.official_receipt_number ?? t("overview.receiptNotVerified")}
                 </p>
-                <Notice tone="warning" className="mt-2" title="Deadline not verified">
-                  {t("grievance.deadlineUnknown")} Elapsed days alone do not prove a legal violation.
+                <Notice tone="warning" className="mt-2" title={t("overview.deadlineNotVerified")}>
+                  {t("grievance.deadlineUnknown")} {t("overview.elapsedNote")}
                 </Notice>
                 <Button
                   variant="secondary"
                   className="mt-2"
                   onClick={() => navigate(`/grievances/${oldGrievance.id}`)}
                 >
-                  Open grievance
+                  {t("overview.openGrievance")}
                 </Button>
               </div>
             ) : (
               <p className="mt-2 text-sm text-muted">
-                {deadlineUnknown.length} grievance(s) have no verified deadline.{" "}
+                {t("overview.noVerifiedDeadline", { count: deadlineUnknown.length })}{" "}
                 <Link className="link" to="/grievances">
-                  View grievances
+                  {t("overview.viewGrievances")}
                 </Link>
               </p>
             )}
@@ -227,7 +225,7 @@ export function OverviewPage() {
           <Card>
             <div className="flex items-center gap-2">
               <ClipboardList aria-hidden="true" className="size-5 text-brand-800" />
-              <h2 className="section-title">Drafts waiting</h2>
+              <h2 className="section-title">{t("overview.draftsWaiting")}</h2>
             </div>
             {unsubmittedDrafts.length > 0 ? (
               <ul className="mt-2 space-y-2">
@@ -242,10 +240,10 @@ export function OverviewPage() {
                 ))}
               </ul>
             ) : (
-              <p className="mt-2 text-sm text-muted">No unsubmitted drafts for this profile.</p>
+              <p className="mt-2 text-sm text-muted">{t("overview.noDrafts")}</p>
             )}
             <Button variant="secondary" className="mt-3" onClick={() => navigate("/drafts")}>
-              Open draft manager
+              {t("overview.openDrafts")}
             </Button>
           </Card>
         </div>
@@ -254,22 +252,18 @@ export function OverviewPage() {
       <Card className="mt-4">
         <div className="flex flex-wrap items-center justify-between gap-2">
           <div>
-            <h2 className="section-title">Who is responsible for the next step?</h2>
-            <p className="text-sm text-muted">
-              These contacts come from the configured demo rules; ownership still needs verification where stated.
-            </p>
+            <h2 className="section-title">{t("overview.whoResponsible")}</h2>
+            <p className="text-sm text-muted">{t("overview.whoResponsibleBody")}</p>
           </div>
           <ShieldCheck aria-hidden="true" className="size-5 text-brand-800" />
         </div>
         <ul className="mt-3 grid gap-2 sm:grid-cols-2">
-          {(rice?.authority_to_contact ?? ["Destination-shop authorised office"]).map((authority) => (
+          {(rice?.authority_to_contact ?? [t("overview.defaultAuthority")]).map((authority) => (
             <li key={authority} className="rounded-xl border border-line bg-canvas/60 p-3 text-sm">
               {authority}
             </li>
           ))}
-          <li className="rounded-xl border border-line bg-canvas/60 p-3 text-sm">
-            Needs verification — confirm the responsible office from the receipt or receiving office.
-          </li>
+          <li className="rounded-xl border border-line bg-canvas/60 p-3 text-sm">{t("overview.needsVerification")}</li>
         </ul>
       </Card>
 
@@ -278,23 +272,23 @@ export function OverviewPage() {
           items={[
             {
               name: "mismatch",
-              label: "Mismatch",
-              text: "A difference in the record is flagged, not silently corrected.",
+              label: t("overview.mismatchTitle"),
+              text: t("overview.pictoMismatch"),
             },
             {
               name: "draft",
-              label: "Draft",
-              text: "A saved local draft is never an official submission.",
+              label: t("nav.drafts"),
+              text: t("overview.pictoDraft"),
             },
             {
               name: "receipt",
-              label: "Receipt verification",
-              text: "Only a verified acknowledgement is shown as confirmed.",
+              label: t("status.verified"),
+              text: t("overview.pictoReceipt"),
             },
             {
               name: "privacy",
-              label: "Privacy",
-              text: "Only this member's records are visible in this session.",
+              label: t("privacy.title"),
+              text: t("overview.pictoPrivacy"),
             },
           ]}
         />

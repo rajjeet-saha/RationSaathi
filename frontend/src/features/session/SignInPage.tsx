@@ -27,7 +27,7 @@ export function SignInPage() {
         setHouseholds(payload.households);
         setSelected((current) => current ?? payload.households[0]?.id ?? null);
       })
-      .catch((err) => setError(err instanceof ApiError ? err.message : "Could not load demo profiles."))
+      .catch((err) => setError(err instanceof ApiError ? err.message : t("signIn.loadError")))
       .finally(() => setLoading(false));
   };
 
@@ -43,7 +43,7 @@ export function SignInPage() {
       await signIn(household.id, "MEMBER", memberId);
       navigate("/", { replace: true });
     } catch (err) {
-      setError(err instanceof ApiError ? err.message : "Could not start the session.");
+      setError(err instanceof ApiError ? err.message : t("signIn.startError"));
     } finally {
       setBusy(false);
     }
@@ -57,7 +57,7 @@ export function SignInPage() {
       await signIn(household.id, "FACILITATOR");
       navigate("/facilitator", { replace: true });
     } catch (err) {
-      setError(err instanceof ApiError ? err.message : "Could not start the assisted session.");
+      setError(err instanceof ApiError ? err.message : t("signIn.assistedError"));
     } finally {
       setBusy(false);
     }
@@ -101,58 +101,45 @@ export function SignInPage() {
           <section>
             <p className="mb-2 inline-flex items-center gap-2 rounded-full border border-brand-200 bg-brand-50 px-3 py-1 text-xs font-bold uppercase tracking-wide text-brand-900">
               <ShieldCheck aria-hidden="true" className="size-4" />
-              Public distribution, without the runaround
+              {t("signIn.heroEyebrow")}
             </p>
-            <h1 className="text-3xl leading-tight sm:text-4xl">
-              What can I safely do today, and who is responsible for the next step?
-            </h1>
-            <p className="mt-3 max-w-2xl text-[15px] leading-relaxed text-muted">
-              RationSaathi helps a migrant household understand verified information, uncertainty and safe next steps
-              without removing anyone's entitlement or mistaking a draft for an official submission.
-            </p>
+            <h1 className="text-3xl leading-tight sm:text-4xl">{t("signIn.heroTitle")}</h1>
+            <p className="mt-3 max-w-2xl text-[15px] leading-relaxed text-muted">{t("signIn.heroLead")}</p>
 
             <div className="mt-6 grid gap-3 sm:grid-cols-2">
               <Card className="p-4">
                 <div className="flex items-center gap-2 text-brand-900">
                   <UsersRound aria-hidden="true" className="size-5" />
-                  <p className="text-sm font-bold">Five synthetic members</p>
+                  <p className="text-sm font-bold">{t("signIn.membersCard")}</p>
                 </div>
-                <p className="mt-1 text-xs leading-relaxed text-muted">
-                  Per-member, per-commodity entitlements with visible provenance.
-                </p>
+                <p className="mt-1 text-xs leading-relaxed text-muted">{t("signIn.membersCardBody")}</p>
               </Card>
               <Card className="p-4">
                 <div className="flex items-center gap-2 text-brand-900">
                   <Globe2 aria-hidden="true" className="size-5" />
-                  <p className="text-sm font-bold">Migration pathway</p>
+                  <p className="text-sm font-bold">{t("signIn.migrationCard")}</p>
                 </div>
-                <p className="mt-1 text-xs leading-relaxed text-muted">
-                  Actionable options with uncertainty, never invented stock or deadlines.
-                </p>
+                <p className="mt-1 text-xs leading-relaxed text-muted">{t("signIn.migrationCardBody")}</p>
               </Card>
             </div>
 
-            <Notice tone="warning" className="mt-6" title="What this prototype does not do">
-              <p>No live government integration, entitlement rate, stock feed or legal deadline is represented.</p>
-              <p>Identity selection here is a simulated demo sign-in, not authentication.</p>
+            <Notice tone="warning" className="mt-6" title={t("signIn.notDoTitle")}>
+              <p>{t("signIn.notDoBody1")}</p>
+              <p>{t("signIn.notDoBody2")}</p>
             </Notice>
 
             <div className="mt-6 flex flex-wrap gap-4 text-sm">
               <Link to="/public" className="link">
-                View anonymised public statistics
+                {t("signIn.publicStatsLink")}
               </Link>
               <Link to="/signin#accessibility" className="link">
-                Accessibility &amp; languages
+                {t("signIn.a11yLink")}
               </Link>
             </div>
 
             <section id="accessibility" className="mt-6 rounded-xl border border-line bg-white p-4">
-              <h2 className="text-sm font-bold">Low-literacy and shared-device design</h2>
-              <p className="mt-1 text-xs leading-relaxed text-muted">
-                Every critical status has a text label plus an icon, and key instructions offer spoken read-back.
-                Speech availability varies by device and may need network access. The session token is held in memory
-                only, so refreshing this page ends access.
-              </p>
+              <h2 className="text-sm font-bold">{t("signIn.sharedDesignTitle")}</h2>
+              <p className="mt-1 text-xs leading-relaxed text-muted">{t("signIn.sharedDesignBody")}</p>
             </section>
           </section>
 
@@ -160,9 +147,7 @@ export function SignInPage() {
             <div className="flex items-start justify-between gap-3">
               <div>
                 <h2 className="text-xl">{t("signIn")}</h2>
-                <p className="mt-1 text-sm text-muted">
-                  Choose a synthetic household, then a member profile or an assisted-service session.
-                </p>
+                <p className="mt-1 text-sm text-muted">{t("signIn.choosePrompt")}</p>
               </div>
               <span className="chip border-amber-300 bg-warningBg text-amber-950">DEMO</span>
             </div>
@@ -173,7 +158,7 @@ export function SignInPage() {
             {!loading && !error ? (
               <>
                 <div className="mt-4">
-                  <p className="label">Synthetic households</p>
+                  <p className="label">{t("signIn.householdList")}</p>
                   <div className="grid gap-2">
                     {households.map((item) => (
                       <button
@@ -202,7 +187,7 @@ export function SignInPage() {
 
                 {household ? (
                   <div className="mt-5">
-                    <p className="label">Member profiles</p>
+                    <p className="label">{t("signIn.memberProfiles")}</p>
                     <ul className="space-y-2">
                       {household.members.map((member) => (
                         <li key={member.id}>
@@ -210,8 +195,8 @@ export function SignInPage() {
                             <div className="min-w-0">
                               <p className="truncate text-sm font-semibold">
                                 {member.alias}
-                                {member.is_head ? " — head" : ""}
-                                {member.is_absent ? " (absent)" : ""}
+                                {member.is_head ? ` — ${t("signIn.head")}` : ""}
+                                {member.is_absent ? ` (${t("signIn.absent")})` : ""}
                               </p>
                               <p className="text-xs text-muted">
                                 {member.relationship ?? "Member"} · {member.age_band}
@@ -222,9 +207,9 @@ export function SignInPage() {
                               className="min-h-9 px-3 py-1.5 text-xs"
                               onClick={() => startMember(member.id)}
                               disabled={busy}
-                              aria-label={`Continue as ${member.alias}`}
+                              aria-label={t("signIn.continueAs", { name: member.alias })}
                             >
-                              Continue
+                              {t("signIn.continue")}
                               <ArrowRight aria-hidden="true" className="size-4" />
                             </Button>
                           </div>
@@ -233,14 +218,11 @@ export function SignInPage() {
                     </ul>
 
                     <div className="mt-4 rounded-xl border border-dashed border-line p-3">
-                      <p className="text-sm font-semibold">Facilitator at a shared service centre?</p>
-                      <p className="mt-1 text-xs leading-relaxed text-muted">
-                        Start an assisted session. The next screen requires an explicit consent conversation before any
-                        profile opens, and cleanup is verified at handover.
-                      </p>
+                      <p className="text-sm font-semibold">{t("signIn.facilitatorTitle")}</p>
+                      <p className="mt-1 text-xs leading-relaxed text-muted">{t("signIn.facilitatorBody")}</p>
                       <Button className="mt-3" variant="secondary" onClick={startFacilitator} disabled={busy}>
                         <LogIn aria-hidden="true" className="size-4" />
-                        Start assisted session
+                        {t("signIn.facilitatorStart")}
                       </Button>
                     </div>
                   </div>
