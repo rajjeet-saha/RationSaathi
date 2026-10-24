@@ -1,0 +1,13 @@
+# The deployable web app is the React + Vite frontend in `frontend/`.
+# The FastAPI backend in `backend/` is not built or served by Netlify.
+[build]
+  base = "frontend"
+  # Install dependencies (including dev tools like tsc and vite) before building.
+  command = "npm ci --include=dev && npm run build"
+  publish = "dist"
+
+# Client-side routing (React Router BrowserRouter): serve index.html for unknown paths.
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
