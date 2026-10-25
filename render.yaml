@@ -1,4 +1,4 @@
-﻿services:
+services:
   - type: web
     name: rationsaathi-backend
     runtime: python
@@ -20,7 +20,6 @@
     rootDir: frontend
     buildCommand: npm install && npm run build
     staticPublishPath: dist
-    plan: free
     routes:
       - type: rewrite
         source: /*
