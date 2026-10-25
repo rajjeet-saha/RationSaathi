@@ -4,7 +4,7 @@
 [![React](https://img.shields.io/badge/React-18.3-61DAFB?style=flat&logo=react&logoColor=black)](https://react.dev)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.7-3178C6?style=flat&logo=typescript&logoColor=white)](https://www.typescriptlang.org)
 [![Vite](https://img.shields.io/badge/Vite-6.0-646CFF?style=flat&logo=vite&logoColor=white)](https://vitejs.dev)
-[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.4-38B2AC?style=flat&logo=tailwind-css&logoColor=white)](https://tailwindcss.com)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.4-38B2AC?style=flat&logo=tailwindcss&logoColor=white)](https://tailwindcss.com)
 [![Python](https://img.shields.io/badge/Python-3.11+-3776AB?style=flat&logo=python&logoColor=white)](https://python.org)
 [![Tests](https://img.shields.io/badge/Tests-84%20Pytest%20%7C%2014%20Vitest%20Passed-success?style=flat)](https://github.com/rajjeet-saha/RationSaathi)
 [![A11y](https://img.shields.io/badge/A11y-axe--core%20WCAG%202.1%20AA-blueviolet?style=flat)](https://www.deque.com/axe/)
@@ -12,6 +12,10 @@
 
 A privacy-preserving civic-service navigator prototype built for migrant households navigating India's Public Distribution System (PDS) and the **One Nation One Ration Card (ONORC)** initiative.
 
+> 🟢 **Live website:** [site-7d05df812da14066b6bfb7c3db6fde68.freebuff.page](https://site-7d05df812da14066b6bfb7c3db6fde68.freebuff.page)  
+> 🧪 **Preview environment:** [site-6d273fb591b749a7bd74fee1c4a103bb.freebuff.page](https://site-6d273fb591b749a7bd74fee1c4a103bb.freebuff.page)  
+> 📦 **Android app:** APK download listed under **Project Links** below  
+  
 > ⚠️ **DEMO MODE — SYNTHETIC DATA ONLY**  
 > **No government system or live database is connected.** No real entitlement amounts, biometric data, Aadhaar numbers, legal deadlines, shop stocks, receipts, or citizen identity records exist anywhere in this repository. All updates and filings use a clearly labelled **simulated adapter** (`SIM-*` receipts).
 
@@ -19,14 +23,34 @@ A privacy-preserving civic-service navigator prototype built for migrant househo
 
 ## 🌐 Project Links
 
+### 🖥️ Website — live
+
+| Resource | Link | Description |
+|---|---|---|
+| **Website (production)** | [https://site-7d05df812da14066b6bfb7c3db6fde68.freebuff.page](https://site-7d05df812da14066b6bfb7c3db6fde68.freebuff.page) | Deployed React + Vite civic dashboard (Freebuff Sites) |
+| **Website (preview)** | [https://site-6d273fb591b749a7bd74fee1c4a103bb.freebuff.page](https://site-6d273fb591b749a7bd74fee1c4a103bb.freebuff.page) | Freebuff Sites preview environment |
+| **Source repository** | [github.com/rajjeet-saha/RationSaathi](https://github.com/rajjeet-saha/RationSaathi) | Source code, tests, and documentation |
+
+### 📱 App (Android)
+
+| Resource | Link | Description |
+|---|---|---|
+| **Android APK download** | _link published as soon as GitHub access is confirmed_ | Release build of the Flutter app (Android 7.0 / API 24+) |
+| **App source & setup** | [`mobile/README.md`](mobile/README.md) | Build, run and test instructions for the Android app |
+
+### 🛠️ Backend API (local — no public host yet)
+
 | Resource | Link / Location | Description |
 |---|---|---|
-| **GitHub Repository** | [github.com/rajjeet-saha/RationSaathi](https://github.com/rajjeet-saha/RationSaathi) | Source code, tests, and documentation |
-| **Frontend Web App** | `http://localhost:5173` | Interactive React + Vite civic dashboard |
 | **Backend API Service** | `http://localhost:8000` | FastAPI service & deterministic rules engine |
 | **Interactive API Docs** | `http://localhost:8000/api/docs` | Swagger UI OpenAPI documentation |
 | **Alternative API Docs** | `http://localhost:8000/api/redoc` | ReDoc API specifications |
-| **System Health Check** | `http://localhost:8000/api/v1/health` | Live JSON health & demo-mode status |
+| **System Health Check** | `http://localhost:8000/api/v1/health` | JSON health & demo-mode status |
+
+> **Deployment note:** the website is deployed to Freebuff Sites from `sites.manifest.json` + `sites-worker.js`
+> (build: `cd frontend && npm ci && npm run build`). Sites caps total uploaded assets at 10 MiB, so the ~50 MB
+> APK is distributed as a release download rather than hosted on the site. The FastAPI backend has no public host
+> yet, so the live site currently serves the UI only — API-backed screens need the backend deployed and proxied at `/api/v1`.
 
 ---
 
@@ -74,8 +98,8 @@ For migrant workers and rural households, navigating fair price shops and ration
                   Deterministic Rules │                   │ SQLAlchemy 2.0 ORM
                                       ▼                   ▼
                       ┌──────────────────────┐    ┌──────────────────────┐
-                      │ Portability & Safety │    │  SQLite (Local Demo) │
-                      │ Rules (Versioned)    │    │  PostgreSQL (Prod)   │
+                      │ Portability & Safety │    │ SQLite (Local Demo)  │
+                      │     Rules (Versioned)│    │ PostgreSQL (Prod)    │
                       └──────────────────────┘    └──────────────────────┘
 ```
 
@@ -110,6 +134,7 @@ RationSaathi/
 │   │   ├── features/            # Feature pages (overview, migration, corrections, drafts, grievances)
 │   │   ├── lib/                 # i18n localization dictionaries (English, Hindi, Bengali, Tamil, etc.)
 │   │   └── test/                # Vitest & axe-core accessibility tests
+│   └── ...
 ├── database/                    # Alembic migration revisions
 ├── docs/                        # Architecture specs, threat models, evaluation reports
 └── alembic.ini                  # Alembic database configuration
