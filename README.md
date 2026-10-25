@@ -4,7 +4,7 @@
 [![React](https://img.shields.io/badge/React-18.3-61DAFB?style=flat&logo=react&logoColor=black)](https://react.dev)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.7-3178C6?style=flat&logo=typescript&logoColor=white)](https://www.typescriptlang.org)
 [![Vite](https://img.shields.io/badge/Vite-6.0-646CFF?style=flat&logo=vite&logoColor=white)](https://vitejs.dev)
-[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.4-38B2AC?style=flat&logo=tailwindcss&logoColor=white)](https://tailwindcss.com)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.4-38B2AC?style=flat&logo=tailwind-css&logoColor=white)](https://tailwindcss.com)
 [![Python](https://img.shields.io/badge/Python-3.11+-3776AB?style=flat&logo=python&logoColor=white)](https://python.org)
 [![Tests](https://img.shields.io/badge/Tests-84%20Pytest%20%7C%2014%20Vitest%20Passed-success?style=flat)](https://github.com/rajjeet-saha/RationSaathi)
 [![A11y](https://img.shields.io/badge/A11y-axe--core%20WCAG%202.1%20AA-blueviolet?style=flat)](https://www.deque.com/axe/)
@@ -15,7 +15,7 @@ A privacy-preserving civic-service navigator prototype built for migrant househo
 > 🟢 **Live website:** [site-7d05df812da14066b6bfb7c3db6fde68.freebuff.page](https://site-7d05df812da14066b6bfb7c3db6fde68.freebuff.page)  
 > 🧪 **Preview environment:** [site-6d273fb591b749a7bd74fee1c4a103bb.freebuff.page](https://site-6d273fb591b749a7bd74fee1c4a103bb.freebuff.page)  
 > 📦 **Android app:** APK download listed under **Project Links** below  
-  
+
 > ⚠️ **DEMO MODE — SYNTHETIC DATA ONLY**  
 > **No government system or live database is connected.** No real entitlement amounts, biometric data, Aadhaar numbers, legal deadlines, shop stocks, receipts, or citizen identity records exist anywhere in this repository. All updates and filings use a clearly labelled **simulated adapter** (`SIM-*` receipts).
 
@@ -98,8 +98,8 @@ For migrant workers and rural households, navigating fair price shops and ration
                   Deterministic Rules │                   │ SQLAlchemy 2.0 ORM
                                       ▼                   ▼
                       ┌──────────────────────┐    ┌──────────────────────┐
-                      │ Portability & Safety │    │ SQLite (Local Demo)  │
-                      │     Rules (Versioned)│    │ PostgreSQL (Prod)    │
+                      │ Portability & Safety │    │  SQLite (Local Demo) │
+                      │ Rules (Versioned)    │    │  PostgreSQL (Prod)   │
                       └──────────────────────┘    └──────────────────────┘
 ```
 
@@ -134,7 +134,6 @@ RationSaathi/
 │   │   ├── features/            # Feature pages (overview, migration, corrections, drafts, grievances)
 │   │   ├── lib/                 # i18n localization dictionaries (English, Hindi, Bengali, Tamil, etc.)
 │   │   └── test/                # Vitest & axe-core accessibility tests
-│   └── ...
 ├── database/                    # Alembic migration revisions
 ├── docs/                        # Architecture specs, threat models, evaluation reports
 └── alembic.ini                  # Alembic database configuration
